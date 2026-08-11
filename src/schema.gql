@@ -3,9 +3,33 @@
 # ------------------------------------------------------
 
 type Restaurant {
+  id: Float!
   name: String!
+  isVegan: Boolean!
+  address: String!
+  ownersName: String!
 }
 
+type User {
+  id: Float!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  email: String!
+  password: String!
+  role: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 type Query {
-  getResturants: Restaurant!
+  getResturants: [Restaurant!]!
+}
+
+type Mutation {
+  createResturant(name: String!, isVegan: Boolean!, address: String!, ownersName: String!): Restaurant!
+  updateResturant(id: Float!, name: String, isVegan: Boolean, address: String, ownersName: String): Restaurant!
+  createAccount(email: String!, password: String!, role: String!): User!
 }
