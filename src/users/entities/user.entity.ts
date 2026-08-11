@@ -1,6 +1,7 @@
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { CoreEntity } from 'src/common/entities/core.entity';
-import { Column, Entity } from 'typeorm';
+import { BeforeInsert, Column, Entity } from 'typeorm';
+import * as bcrypt from 'bcryptjs';
 
 export type UserRole = 'client' | 'owner' | 'delivery';
 
@@ -19,4 +20,9 @@ export class User extends CoreEntity {
   @Column()
   @Field(() => String)
   role: UserRole;
+
+  @BeforeInsert()
+  async hashPassword(): Promise<void> {
+    this.password = await bcrypt.hash(this.password, 10);
+  }
 }
